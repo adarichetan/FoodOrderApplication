@@ -27,7 +27,7 @@ public class CartServiceImpl implements CartService {
                 return new Response(ResponseStatus.SUCCESS, ">> Successfully added to the cart ✅ ");
 
         } catch (Exception e) {
-            log.error("Error from cartService method while adding item to cart", e);
+            log.error("Error from cart service method while adding item to cart", e);
             return new Response(ResponseStatus.FAILURE, "Error from cartService method while adding item to cart.. please contact admin.");
         }
         return new Response(ResponseStatus.FAILURE, "Unable to add to cart.");

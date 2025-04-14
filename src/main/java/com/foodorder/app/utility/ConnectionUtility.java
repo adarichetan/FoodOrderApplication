@@ -16,9 +16,9 @@ public class ConnectionUtility {
     public static Connection getConnection() {
         if (connection == null) {
             try {
-                String url = ConfigReader.getKey("url");
-                String user = ConfigReader.getKey("user");
-                String password = ConfigReader.getKey("password");
+                String url = ConfigReader.get("url");
+                String user = ConfigReader.get("user");
+                String password = ConfigReader.get("password");
 
                 connection = DriverManager.getConnection(url, user, password);
                 log.info("Database connection established successfully.");
