@@ -21,7 +21,6 @@ public class FoodOrderApp {
     private final Validators validators = serviceFactory.getValidators();
 
     public void run() {
-        DaoFactory.setDaoType(DaoFactory.DaoType.COLLECTION);
         log.info("Application started...");
 
         int choice = -1;
@@ -100,7 +99,7 @@ public class FoodOrderApp {
 
             Response response = authService.handleRegisterAuth(newUser);
 
-            if (response.isSuccess()) {
+            if (Boolean.TRUE.equals(response.isSuccess())) {
                 System.out.println(response.getMessage());
                 loginFlow();
                 break;
