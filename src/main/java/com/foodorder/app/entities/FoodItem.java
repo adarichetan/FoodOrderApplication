@@ -29,7 +29,7 @@ public class FoodItem implements Formattable {
 
     @Override
     public String getTitle() {
-        return "Food Menu";
+        return "FOOD MENU";
     }
 
 }

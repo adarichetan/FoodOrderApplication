@@ -32,8 +32,6 @@ public class OrderDaoJdbcImpl implements OrderDao {
     void initSqlDataConnection() {
         this.con = ConnectionUtility.getConnection();
     }
-    private final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public Optional<Order> placeOrder(User user) throws SQLException {

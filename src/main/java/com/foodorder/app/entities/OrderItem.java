@@ -39,7 +39,7 @@ public class OrderItem implements Formattable {
 
     @Override
     public String getTitle() {
-        return "Ordered item";
+        return "ORDERED ITEM";
     }
 }
 

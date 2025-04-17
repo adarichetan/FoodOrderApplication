@@ -32,6 +32,6 @@ public class CartItem implements Formattable {
 
     @Override
     public String getTitle() {
-        return "Ordered item";
+        return "CART ITEMS";
     }
 }

@@ -7,6 +7,9 @@ import com.foodorder.app.utility.Formattable;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Data
@@ -34,15 +37,21 @@ public class Order implements Formattable {
         return List.of("ORDER ID", "ORDER DATE", "STATUS", "TOTAL BILL");
     }
 
+
     @Override
     public List<String> getValues() {
-        double totalbill= this.totalBill;
-        return List.of(String.valueOf(this.id), String.valueOf(this.orderOn),
-                String.valueOf(this.orderStatus), CurrencyFormatter.format(totalbill));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedOrderDate = orderOn.toLocalDateTime().format(formatter);
+        return List.of(
+                String.valueOf(this.id),
+                formattedOrderDate,
+                String.valueOf(this.orderStatus),
+                CurrencyFormatter.format(this.totalBill)
+        );
     }
 
     @Override
     public String getTitle() {
-        return "Order History";
+        return "ORDER HISTORY";
     }
 }
