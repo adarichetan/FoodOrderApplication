@@ -14,11 +14,11 @@ public class UserDaoImpl implements UserDao {
     private int idCounter = 10;
 
     private void initializeUsers() {
-        User user3 = User.builder().userId(5).name("omi").email("omi@gmail.com").password("Omi@12345").role(UserRole.CUSTOMER).build();
+//        User user3 = User.builder().userId(5).name("omi").email("omi@gmail.com").password("Omi@12345").role(UserRole.CUSTOMER).build();
         User user1 = User.builder().userId(2).name("Chetan").email("chetan@gmail.com").password("Chetan@123").role(UserRole.CUSTOMER).build();
         User adminUser = User.builder().userId(4).name("Admin").email("admin@gmail.com").password("Admin@123").role(UserRole.ADMIN).build();
         users.add(user1);
-        users.add(user3);
+//        users.add(user3);
         users.add(adminUser);
     }
 
@@ -66,24 +66,19 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean setLoginStatus(String email) {
-        Optional<User> isPresent = users.stream().filter(user -> user.getEmail().equalsIgnoreCase(email)).findFirst();
-        if (isPresent.isPresent()) {
-            isPresent.get().setLoggedIn(true);
-            return true;
-        } else {
-            return false;
-        }
-    }
+    public boolean updateUser(User user) {
+        Optional<User> first = users.stream().filter(u -> Objects.equals(u.getUserId(), user.getUserId())).findFirst();
+        if (first.isPresent()) {
+            User existingUser = first.get();
+            existingUser.setName(user.getName());
+            existingUser.setRole(user.getRole());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setName(user.getName());
+            existingUser.setPassword(user.getPassword());
+            existingUser.setLoggedIn(user.isLoggedIn());
 
-    @Override
-    public boolean logoutUser(String email) throws SQLException {
-        Optional<User> isPresent = users.stream().filter(user -> user.getEmail().equalsIgnoreCase(email)).findFirst();
-        if (isPresent.isPresent()) {
-            isPresent.get().setLoggedIn(false);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

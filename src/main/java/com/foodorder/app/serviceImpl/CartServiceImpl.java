@@ -43,7 +43,7 @@ public class CartServiceImpl implements CartService {
         } catch (Exception e) {
             log.error("Error from cartService method.. please contact admin.", e);
         }
-        return new Response(ResponseStatus.FAILURE, "Your cart is empty.");
+        return new Response(ResponseStatus.FAILURE, "❗ Your cart is empty.");
     }
 
     @Override

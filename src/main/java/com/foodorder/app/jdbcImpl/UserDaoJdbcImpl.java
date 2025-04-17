@@ -97,28 +97,17 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     @Override
-    public boolean setLoginStatus(String email) throws SQLException {
-        Optional<User> userByEmail = findUserByEmail(email);
+    public boolean updateUser(User user) throws SQLException {
+        Optional<User> userByEmail = findUserByEmail(user.getEmail());
         if (userByEmail.isPresent()) {
-
-            try (PreparedStatement ps = con.prepareStatement(UserSqlQueries.UPDATE_LOGIN_STATUS_BY_EMAIL)) {
-                ps.setBoolean(1, true);
-                ps.setString(2, email);
-
-                return ps.executeUpdate() > 0;
-
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean logoutUser(String email) throws SQLException {
-        Optional<User> userByEmail = findUserByEmail(email);
-        if (userByEmail.isPresent()) {
-            try (PreparedStatement ps = con.prepareStatement(UserSqlQueries.LOGOUT_BY_EMAIL)) {
-                ps.setBoolean(1, false);
-                ps.setString(2, email);
+            try (PreparedStatement ps = con.prepareStatement(UserSqlQueries.UPDATE_USER)) {
+                ps.setString(1, user.getName());
+                ps.setString(2, user.getPassword());
+                ps.setString(3, user.getEmail());
+                ps.setString(4, user.getAddress());
+                ps.setString(5, user.getRole().toString());
+                ps.setBoolean(6, user.isLoggedIn());
+                ps.setInt(7, user.getUserId());
 
                 return ps.executeUpdate() > 0;
             }

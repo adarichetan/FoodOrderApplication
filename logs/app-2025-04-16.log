@@ -1,0 +1,298 @@
+2025-04-16 11:18:25 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:18:43 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:18:44 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:34)
+	at com.foodorder.app.Main.main(Main.java:7)
+2025-04-16 11:21:01 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:22:29 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:22:54 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:41:58 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:43:58 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:44:10 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:29)
+	at com.foodorder.app.Main.main(Main.java:8)
+2025-04-16 11:44:47 [main] ERROR c.f.a.u.ManageFoodItemsUi - Error from restaurant food Ui: 
+java.lang.NumberFormatException: For input string: "fas"
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+	at java.base/java.lang.Integer.parseInt(Integer.java:662)
+	at java.base/java.lang.Integer.parseInt(Integer.java:778)
+	at com.foodorder.app.ui.ManageFoodItemsUi.getIntegerInput(ManageFoodItemsUi.java:102)
+	at com.foodorder.app.ui.ManageFoodItemsUi.addFoodItem(ManageFoodItemsUi.java:128)
+	at com.foodorder.app.ui.ManageFoodItemsUi.initManageFoods(ManageFoodItemsUi.java:40)
+	at com.foodorder.app.ui.AdminUi.initAdminScreen(AdminUi.java:59)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:12)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:8)
+2025-04-16 11:46:34 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:48:30 [main] ERROR c.f.a.u.ManageFoodItemsUi - Error from restaurant food Ui: 
+java.lang.NumberFormatException: For input string: "afs"
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+	at java.base/java.lang.Integer.parseInt(Integer.java:662)
+	at java.base/java.lang.Integer.parseInt(Integer.java:778)
+	at com.foodorder.app.ui.ManageFoodItemsUi.getIntegerInput(ManageFoodItemsUi.java:102)
+	at com.foodorder.app.ui.ManageFoodItemsUi.addFoodItem(ManageFoodItemsUi.java:128)
+	at com.foodorder.app.ui.ManageFoodItemsUi.initManageFoods(ManageFoodItemsUi.java:40)
+	at com.foodorder.app.ui.AdminUi.initAdminScreen(AdminUi.java:59)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:12)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:8)
+2025-04-16 11:48:36 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:49:10 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:53:38 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 11:59:36 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 12:14:05 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 12:14:20 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:29)
+	at com.foodorder.app.Main.main(Main.java:8)
+2025-04-16 12:35:26 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 13:06:33 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 13:06:57 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 13:15:21 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 13:16:39 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 13:18:14 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 13:21:03 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 13:25:20 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 13:28:32 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 13:28:36 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:29)
+	at com.foodorder.app.Main.main(Main.java:8)
+2025-04-16 13:28:40 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:29)
+	at com.foodorder.app.Main.main(Main.java:8)
+2025-04-16 13:34:34 [main] ERROR c.f.a.u.AdminUi - Error from initAdminScreen method: 
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.ui.AdminUi.initAdminScreen(AdminUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:12)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:8)
+2025-04-16 13:34:37 [main] ERROR c.f.a.u.AdminUi - Error from initAdminScreen method: 
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.ui.AdminUi.initAdminScreen(AdminUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:12)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:8)
+2025-04-16 13:37:19 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 14:51:37 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 15:15:57 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 15:34:52 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 15:38:45 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 15:47:24 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 15:59:55 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 16:12:34 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 16:12:55 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:120)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(CustomerUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 16:46:41 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 16:47:35 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:120)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(CustomerUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 16:49:06 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 16:50:45 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:120)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(CustomerUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 16:51:38 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:120)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(CustomerUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 16:56:07 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 16:56:37 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:121)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(CustomerUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 16:57:03 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 16:57:35 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:121)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(CustomerUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 16:59:46 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 17:04:25 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(Unknown Source)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(Unknown Source)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(Unknown Source)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 17:11:05 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:121)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(Unknown Source)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 17:11:30 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:121)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(Unknown Source)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 17:17:56 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 17:27:03 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:120)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(CustomerUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 17:27:06 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 17:31:51 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:120)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(CustomerUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 17:31:58 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 17:35:03 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 17:36:41 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 17:36:46 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:29)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 17:37:16 [main] ERROR c.f.a.u.CustomerUi - Error from init customer ui:
+java.lang.ClassCastException: class java.lang.Double cannot be cast to class java.lang.Integer (java.lang.Double and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.foodorder.app.ui.CustomerUi.proceedWithCart(CustomerUi.java:120)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:102)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(CustomerUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 17:39:41 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 17:40:07 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 18:17:00 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 18:18:58 [main] ERROR c.f.a.s.CartServiceImpl - Error from update quantity method
+org.postgresql.util.PSQLException: ERROR: new row for relation "cart_items" violates check constraint "cart_items_quantity_check"
+  Detail: Failing row contains (41, 14, 1, -2).
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:194)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:155)
+	at com.foodorder.app.jdbcImpl.CartDaoJdbcImpl.updateQuantityFromCart(CartDaoJdbcImpl.java:113)
+	at com.foodorder.app.serviceImpl.CartServiceImpl.updateQuantityFromCart(CartServiceImpl.java:62)
+	at com.foodorder.app.ui.CustomerUi.lambda$updateCartQuantity$6(CustomerUi.java:272)
+	at java.base/java.util.Optional.ifPresentOrElse(Optional.java:196)
+	at com.foodorder.app.ui.CustomerUi.updateCartQuantity(CustomerUi.java:252)
+	at com.foodorder.app.ui.CustomerUi.viewCart(CustomerUi.java:208)
+	at com.foodorder.app.ui.CustomerUi.addToCart(CustomerUi.java:91)
+	at com.foodorder.app.ui.CustomerUi.initCustomerScreen(CustomerUi.java:49)
+	at com.foodorder.app.ui.Ui.initUserUi(Ui.java:13)
+	at com.foodorder.app.FoodOrderApp.loginFlow(FoodOrderApp.java:72)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:33)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-16 18:22:49 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 18:54:04 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 18:56:51 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 19:17:18 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 19:29:25 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:16:50 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:18:21 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:24:44 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:27:39 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:40:21 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:41:25 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:42:59 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:44:53 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:46:19 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:46:55 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:51:41 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-16 20:53:51 [main] INFO  c.f.a.FoodOrderApp - Application started...

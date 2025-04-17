@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Response getOrder(int orderId) {
+    public Response getOrderById(int orderId) {
         try {
             Optional<Order> orderById = orderDao.getOrderById(orderId);
             return orderById.map(order -> new Response(order, ResponseStatus.SUCCESS, "Order details fetched successfully."))

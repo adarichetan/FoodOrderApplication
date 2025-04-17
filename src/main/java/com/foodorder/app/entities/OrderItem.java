@@ -1,5 +1,6 @@
 package com.foodorder.app.entities;
 
+import com.foodorder.app.utility.CurrencyFormatter;
 import com.foodorder.app.utility.Formattable;
 import lombok.*;
 
@@ -25,12 +26,15 @@ public class OrderItem implements Formattable {
 
     @Override
     public List<String> getColumns() {
-        return List.of("Name", "Price", "Category", "Quantity");
+        return List.of("NAME", "PRICE", "CATEGORY", "QUANTITY");
     }
 
     @Override
     public List<String> getValues() {
-        return List.of(this.foodItem.getName(), String.valueOf(this.foodItem.getPrice()), String.valueOf(this.foodItem.getCategory()), String.valueOf(this.quantity));
+        return List.of(this.foodItem.getName(),
+                CurrencyFormatter.format(this.getPrice()),
+                String.valueOf(this.foodItem.getCategory()),
+                String.valueOf(this.quantity));
     }
 
     @Override

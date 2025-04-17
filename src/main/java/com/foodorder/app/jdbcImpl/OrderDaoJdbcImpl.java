@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +32,19 @@ public class OrderDaoJdbcImpl implements OrderDao {
     void initSqlDataConnection() {
         this.con = ConnectionUtility.getConnection();
     }
+    private final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public Optional<Order> placeOrder(User user) throws SQLException {
-        LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+
 
         try (PreparedStatement ps = con.prepareStatement(OrderSqlQueries.INSERT_ORDER, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, user.getUserId());
             ps.setString(2, OrderStatus.ORDERED.name());
-            ps.setTimestamp(3, Timestamp.valueOf(now));
-            ps.setDouble(4, 0.0);
+            ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)));
+
+                    ps.setDouble(4, 0.0);
 
             int affectedRows = ps.executeUpdate();
             if (affectedRows == 0) return Optional.empty();
@@ -83,7 +87,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
             Order order = Order.builder()
                     .id(orderId)
                     .user(user)
-                    .orderOn(Timestamp.valueOf(now))
+                    .orderOn(Timestamp.valueOf(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)))
                     .orderStatus(OrderStatus.ORDERED)
                     .orderItems(cartItems.stream()
                             .map(cartItem -> OrderItem.builder()
@@ -170,7 +174,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                         .user(User.builder().userId(resultSet.getInt("user_id")).build())
                         .orderItems(orderedItems)
                         .orderStatus(OrderStatus.valueOf(resultSet.getString("order_status")))
-                        .orderOn(Timestamp.valueOf(resultSet.getTimestamp("order_on").toLocalDateTime()))
+                        .orderOn(Timestamp.valueOf(resultSet.getTimestamp("order_on").toLocalDateTime().truncatedTo(ChronoUnit.SECONDS)))
                         .totalBill(resultSet.getDouble("total_bill"))
                         .build();
                 return Optional.ofNullable(order);

@@ -4,6 +4,7 @@ import com.foodorder.app.entities.Order;
 import com.foodorder.app.entities.OrderItem;
 import com.foodorder.app.entities.User;
 import com.foodorder.app.enums.ResponseStatus;
+import com.foodorder.app.service.AuthenticationService;
 import com.foodorder.app.service.OrderService;
 import com.foodorder.app.service.RestaurantService;
 import com.foodorder.app.service.AdminService;
@@ -16,28 +17,25 @@ import java.util.Scanner;
 
 @Slf4j
 public class AdminUi extends Ui {
-
     private final AdminService adminService;
     private User loggedInAdmin;
     private final OrderService orderService;
     private final Scanner scanner;
+    private final AuthenticationService authService;
     private final ManageFoodItemsUi manageFoodItemsUi;
+    private final Validators validators;
 
-    public AdminUi(Scanner scanner, AdminService adminService, RestaurantService restaurantService, OrderService orderService) {
+    public AdminUi(Scanner scanner, Validators validators, AdminService adminService, RestaurantService restaurantService, OrderService orderService, AuthenticationService authService) {
+        this.validators = validators;
         this.adminService = adminService;
         this.orderService = orderService;
         this.scanner = scanner;
-        this.manageFoodItemsUi = new ManageFoodItemsUi(scanner, restaurantService);
+        this.authService = authService;
+        this.manageFoodItemsUi = new ManageFoodItemsUi(scanner, restaurantService, validators);
     }
 
     @Override
     public void initAdminScreen(User userData) {
-
-        Response loginUserAccessResponse = provideLoginUserAccess(userData.getEmail());
-        if (Boolean.FALSE.equals(loginUserAccessResponse.isSuccess())) {
-            System.out.println(loginUserAccessResponse.getMessage());
-            return;
-        }
         loggedInAdmin = userData;
         System.out.println(ColourCodes.GREEN + "Welcome, Admin " + loggedInAdmin.getName() + "!" + ColourCodes.RESET);
 
@@ -64,7 +62,7 @@ public class AdminUi extends Ui {
                 }
             } catch (IllegalArgumentException | InputMismatchException e) {
                 log.error("Error from initAdminScreen method: ", e);
-                System.out.println(e.getMessage());
+                scanner.nextLine();
             }
         }
     }
@@ -74,31 +72,23 @@ public class AdminUi extends Ui {
         //not being used here
     }
 
-    private Response provideLoginUserAccess(String email) {
-        return adminService.setLoginStatus(email);
-    }
-
     private void grantRoleAsAdmin() {
-        Response allUsers = adminService.fetchAllUsers();
-        if (!allUsers.isSuccess()) {
+        Response allUsers = adminService.fetchAllCustomers();
+        if (Boolean.FALSE.equals(allUsers.isSuccess())) {
             System.out.println(allUsers.getMessage());
         }
         List<User> usersData = (List<User>) allUsers.getData();
         DataFormatter.printTable(usersData);
 
-        System.out.println("\uD83D\uDC64  Enter the name of the person you'd like to authorize as Admin: \n"
-                + ColourCodes.RED + "↩️ Or enter 'exit' to back to menu: " + ColourCodes.RESET);
-        String name = scanner.nextLine();
-        if (name == null || name.isBlank()) {
-            System.out.println("Enter the proper details and  try again..");
+        String userName = validators.checkStringInput("\uD83D\uDC64 Enter the name of the user you'd like to authorize as Admin: \n↩\uFE0F ");
+        if (userName == null) return;
+
+        if (usersData.stream().noneMatch(user -> user.getName().equalsIgnoreCase(userName))) {
+            System.out.println("❗ No user found with specified name." + userName);
             return;
         }
 
-        if (name.equalsIgnoreCase("exit")) {
-            return;
-        }
-
-        Response response = adminService.grantAccess(name);
+        Response response = adminService.grantAccess(userName);
         if (Boolean.FALSE.equals(response.isSuccess())) {
             System.out.println(response.getMessage());
             return;
@@ -106,8 +96,8 @@ public class AdminUi extends Ui {
         System.out.println(response.getMessage());
     }
 
-    private void logOutAdmin(User admin) {
-        Response response = adminService.logoutUser(admin.getEmail());
+    private void logOutAdmin(User loggedInAdmin) {
+        Response response = authService.logoutUser(loggedInAdmin);
 
         if (response.getResponseStatus() != ResponseStatus.SUCCESS) {
             System.out.println(response.getMessage());
@@ -133,30 +123,6 @@ public class AdminUi extends Ui {
         DataFormatter.printTable(users);
     }
 
-    private int promptOrderIdSelection(List<Order> orders) {
-        while (true) {
-            System.out.println("🔍 Enter the Order ID to view order details: \n" +
-                    ColourCodes.RED + "🚪 Or type 'exit' to return to the previous menu: " + ColourCodes.RESET);
-
-            String input = scanner.nextLine().trim();
-
-            if (input.equalsIgnoreCase("exit")) return -1;
-
-            if (!input.matches("\\d+")) {
-                System.out.println("Invalid input, Please enter a valid numeric ID.");
-                return -1;
-            }
-
-            int orderId = Integer.parseInt(input);
-            boolean exists = orders.stream().anyMatch(order -> order.getId() == orderId);
-            if (!exists) {
-                System.err.println("❗ No order found with ID: " + orderId);
-                return -1;
-            }
-            return orderId;
-        }
-    }
-
     private void displayAllOrders() {
         Response response = orderService.getAllOrders();
 
@@ -172,14 +138,19 @@ public class AdminUi extends Ui {
         }
 
         OrderFormatter.printTable(orders);
+        int finalOrderId = validators.checkNumericInput("🔍 Enter the Order ID to view order details: \n\uD83D\uDEAA ").intValue();
+        if (finalOrderId == -2) return;
 
-        int orderId = promptOrderIdSelection(orders);
-        if (orderId == -1) return;
-        showOrderDetails(orderId);
+        boolean exists = orders.stream().anyMatch(order -> order.getId() == finalOrderId);
+        if (!exists) {
+            System.err.println("❗ No order found with ID: " + finalOrderId);
+            return;
+        }
+        showOrderDetails(finalOrderId);
     }
 
     private void showOrderDetails(int orderId) {
-        Response orderResponse = orderService.getOrder(orderId);
+        Response orderResponse = orderService.getOrderById(orderId);
 
         if (Boolean.FALSE.equals(orderResponse.isSuccess())) {
             System.err.println(orderResponse.getMessage());

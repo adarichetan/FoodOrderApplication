@@ -30,13 +30,14 @@ public class ServiceFactory {
 
     private ServiceFactory() {
         scanner = new Scanner(System.in);
-        validators = new Validators();
+        validators = new Validators(scanner);
 
         adminService = new AdminServiceImpl(userDao);
         orderService = new OrderServiceImpl(orderDao, cartDao);
         cartService = new CartServiceImpl(cartDao);
-        customerService = new CustomerServiceImpl(orderService, cartService, userDao);
+        customerService = new CustomerServiceImpl(userDao);
         restaurantService = new RestaurantServiceImpl(restaurantDao, foodDao);
         authenticationService = new AuthenticationServiceImpl(userDao);
     }
+
 }

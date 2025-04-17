@@ -9,14 +9,17 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CartDaoImpl implements CartDao {
-    private final List<CartItem> cartData = Collections.synchronizedList(new ArrayList<>());
-    private static final CartDaoImpl cartDao = new CartDaoImpl();
+    private static final List<CartItem> cartData = Collections.synchronizedList(new ArrayList<>());
+    private static CartDaoImpl cartDao;
     private final AtomicInteger idCounter = new AtomicInteger(1);
 
     private CartDaoImpl() {
     }
 
     public static CartDaoImpl getCartDaoImpl() {
+        if (cartDao == null) {
+            cartDao = new CartDaoImpl();
+        }
         return cartDao;
     }
 
@@ -75,4 +78,5 @@ public class CartDaoImpl implements CartDao {
         return cartData.removeIf(cartItem -> cartItem.getUser().getUserId() == id &&
                 cartItem.getFoodItem().getName().equalsIgnoreCase(name));
     }
+
 }

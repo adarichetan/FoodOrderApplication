@@ -12,7 +12,6 @@ public class UserSqlQueries {
 
     public static final String GRANT_ADMIN = "UPDATE users SET role_type = 'ADMIN' WHERE name = ?";
 
-    public static final String UPDATE_LOGIN_STATUS_BY_EMAIL = "UPDATE users SET is_logged_in = ? WHERE email = ?";
+    public static final String UPDATE_USER = "UPDATE users SET name = ?, password = ?, email = ?, address = ?, role_type = ?, is_logged_in = ? WHERE user_id = ?";
 
-    public static final String LOGOUT_BY_EMAIL = "UPDATE users SET is_logged_in = ? WHERE email = ?";
 }

@@ -2,6 +2,7 @@
 package com.foodorder.app.entities;
 
 import com.foodorder.app.enums.OrderStatus;
+import com.foodorder.app.utility.CurrencyFormatter;
 import com.foodorder.app.utility.Formattable;
 import lombok.*;
 
@@ -30,13 +31,14 @@ public class Order implements Formattable {
 
     @Override
     public List<String> getColumns() {
-        return List.of("Order id", "Order Date", "Status", "Total Bill:");
+        return List.of("ORDER ID", "ORDER DATE", "STATUS", "TOTAL BILL");
     }
 
     @Override
     public List<String> getValues() {
+        double totalbill= this.totalBill;
         return List.of(String.valueOf(this.id), String.valueOf(this.orderOn),
-                String.valueOf(this.orderStatus), String.valueOf(this.totalBill));
+                String.valueOf(this.orderStatus), CurrencyFormatter.format(totalbill));
     }
 
     @Override

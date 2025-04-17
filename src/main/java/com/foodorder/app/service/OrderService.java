@@ -4,10 +4,8 @@ import com.foodorder.app.entities.Order;
 import com.foodorder.app.entities.User;
 import com.foodorder.app.utility.Response;
 
-import java.util.List;
-
 public interface OrderService {
-    Response getOrder(int orderId);
+    Response getOrderById(int orderId);
 
     Response getAllOrders();
 

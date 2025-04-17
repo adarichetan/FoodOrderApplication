@@ -1,37 +1,28 @@
 package com.foodorder.app.ui;
 
 import com.foodorder.app.entities.*;
-import com.foodorder.app.enums.ResponseStatus;
 
 import com.foodorder.app.service.*;
-import com.foodorder.app.utility.ColourCodes;
-import com.foodorder.app.utility.DataFormatter;
-import com.foodorder.app.utility.MenuPrinter;
-import com.foodorder.app.utility.Response;
+import com.foodorder.app.utility.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
 @Slf4j
+@RequiredArgsConstructor
 public class CustomerUi extends Ui {
-    private final RestaurantService restaurantService;
-    private User loggedInCustomer;
-    private CustomerService customerService;
     private final Scanner scanner;
-
-    public CustomerUi(Scanner scanner, RestaurantService restaurantService, CustomerService customerService) {
-        this.scanner = scanner;
-        this.restaurantService = restaurantService;
-        this.customerService = customerService;
-    }
+    private final RestaurantService restaurantService;
+    private final CustomerService customerService;
+    private final CartService cartService;
+    private final OrderService orderService;
+    private final Validators validators;
+    private final AuthenticationService authService;
+    private User loggedInCustomer;
 
     @Override
     public void initCustomerScreen(User userData) {
-        Response response = provideLoginUserAccess(userData.getEmail());
-        if (response.getResponseStatus() != ResponseStatus.SUCCESS) {
-            System.out.println(response.getMessage());
-            return;
-        }
         loggedInCustomer = userData;
 
         System.out.println(ColourCodes.GREEN + "Welcome, " + loggedInCustomer.getName() + "!" + ColourCodes.RESET);
@@ -76,16 +67,11 @@ public class CustomerUi extends Ui {
         }
     }
 
-    private Response provideLoginUserAccess(String email) {
-        return customerService.setLoginStatus(email);
-    }
-
     private void viewMenu() {
-        System.out.println(ColourCodes.CYAN + "\nMENU" + ColourCodes.RESET);
-        System.out.printf(ColourCodes.PURPLE + "| %-15s | %-10s | %-10s |" + ColourCodes.RESET + "%n", "Food Name", "Item Price", "Food Category");
         Response allFoodResponse = restaurantService.getAllFood();
         List<FoodItem> foodItems = (List<FoodItem>) allFoodResponse.getData();
-        foodItems.forEach(System.out::println);
+        DataFormatter.printTable(foodItems);
+
     }
 
     private void addToCart() {
@@ -103,7 +89,7 @@ public class CustomerUi extends Ui {
                 }
                 case "2" -> viewCart();
                 case "3" -> {
-                    Response responseCart = customerService.getCart(loggedInCustomer);
+                    Response responseCart = cartService.getCartItems(loggedInCustomer);
                     if (Boolean.FALSE.equals(responseCart.isSuccess())) {
                         System.out.println(responseCart.getMessage());
                     } else {
@@ -122,21 +108,20 @@ public class CustomerUi extends Ui {
     }
 
     private void proceedWithCart(FoodItem item) {
-        System.out.println("Enter quantity:");
-        int quantity = getQuantityInput();
-        if (quantity <= 0) {
-            System.out.println(" quantity must be greater than 0");
+        int quantity = validators.checkNumericInput("Enter Quantity: ").intValue();
+        if (quantity == -2) return;
+        if (quantity > 500) {
+            System.out.println("That quantity seems too high. it should be less than 500.");
             return;
         }
 
-        Response response = customerService.addToCart(loggedInCustomer, item, quantity);
+        Response response = cartService.addToCart(loggedInCustomer, item, quantity);
         if (Boolean.FALSE.equals(response.isSuccess())) {
             System.out.println(response.getMessage());
             return;
         }
         System.out.println(response.getMessage());
         getCart();
-
     }
 
     private void placeOrder() {
@@ -162,16 +147,24 @@ public class CustomerUi extends Ui {
         }
     }
 
+    private boolean isSimilar(String menuItem, String userInput) {
+        String normalizedMenuItem = menuItem.trim().toLowerCase().replaceAll("\\s+", "");
+        return normalizedMenuItem.equalsIgnoreCase(userInput);
+    }
+
     private Optional<FoodItem> foodItemIsPresent(String foodName) {
         Response allFoodResponse = restaurantService.getAllFood();
         List<FoodItem> foodItems = (List<FoodItem>) allFoodResponse.getData();
+
+        String normalizedFoodName = foodName.trim().toLowerCase().replaceAll("\\s+", "");
+
         return foodItems.stream()
-                .filter(f -> f.getName().equalsIgnoreCase(foodName))
+                .filter(f -> isSimilar(f.getName(), normalizedFoodName))
                 .findFirst();
     }
 
     private List<CartItem> getCart() {
-        Response responseCart = customerService.getCart(loggedInCustomer);
+        Response responseCart = cartService.getCartItems(loggedInCustomer);
 
         if (Boolean.FALSE.equals(responseCart.isSuccess())) {
             System.out.println(responseCart.getMessage());
@@ -181,7 +174,8 @@ public class CustomerUi extends Ui {
         List<CartItem> cart = (List<CartItem>) responseCart.getData();
         DataFormatter.printTable(cart);
 
-        System.out.println("Total Bill: " + cart.stream().mapToDouble(CartItem::getTotalPrice).sum() + "₹");
+        double totalBill = cart.stream().mapToDouble(CartItem::getTotalPrice).sum();
+        System.out.println("Total Bill: " + CurrencyFormatter.format(totalBill));
         return cart;
     }
 
@@ -212,53 +206,35 @@ public class CustomerUi extends Ui {
     }
 
     private void deleteCartItem(List<CartItem> cart) {
-        System.out.println("❌ Enter the food name to remove from cart: ");
-        String foodNameToDelete = scanner.nextLine().trim();
+        String foodItem = validators.checkStringInput("❌ Enter the food name to remove from cart: ");
+        if (foodItem == null) return;
+        String normalizedFoodName = foodItem.trim().toLowerCase().replaceAll("\\s+", "");
 
         cart.stream()
-                .filter(c -> c.getFoodItem().getName().equalsIgnoreCase(foodNameToDelete))
+                .filter(c -> isSimilar(c.getFoodItem().getName(), normalizedFoodName))
                 .findFirst()
                 .ifPresentOrElse(cartItem -> {
-                    Response response = customerService.deleteFromCart(loggedInCustomer.getUserId(), cartItem.getFoodItem().getName());
+                    Response response = cartService.deleteFromCart(loggedInCustomer.getUserId(), cartItem.getFoodItem().getName());
                     System.out.println(response.getMessage());
                 }, () -> System.out.println("❌ Food item not found."));
     }
 
-
-    private int getQuantityInput() {
-        int quantity = 0;
-        try {
-            quantity = scanner.nextInt();
-            scanner.nextLine();
-        } catch (InputMismatchException e) {
-            System.out.println("Please enter a valid integer for quantity.");
-            scanner.nextLine();
-        }
-        return quantity;
-
-    }
-
     private void updateCartQuantity(List<CartItem> cart) {
-        System.out.println("✏️ Enter the food name to update:");
-        String foodNameToUpdate = scanner.nextLine().trim();
+        String foodItem = validators.checkStringInput("✏️ Enter the food name to update: ");
+        if (foodItem == null) return;
+        String normalizedFoodName = foodItem.trim().toLowerCase().replaceAll("\\s+", "");
 
         cart.stream()
-                .filter(c -> c.getFoodItem().getName().equalsIgnoreCase(foodNameToUpdate))
-                .findFirst()
-                .ifPresentOrElse(cartItem -> {
+                .filter(c -> isSimilar(c.getFoodItem().getName(), normalizedFoodName))
+                .findFirst().ifPresentOrElse(cartItem -> {
 
-                    System.out.println("Enter new quantity:");
-                    int newQuantity = getQuantityInput();
-
-                    if (newQuantity <= 0) {
-                        System.out.println("Quantity should be greater than 0.");
+                    int newQuantity = validators.checkNumericInput("Enter quantity: ").intValue();
+                    if (newQuantity == -2) return;
+                    if (newQuantity > 500) {
+                        System.out.println("That quantity seems too high. it should be less than 500.");
                         return;
                     }
-                    if (newQuantity > 999) {
-                        System.out.println("That quantity seems too high. it should be less than 999.");
-                        return;
-                    }
-                    Response response = customerService.updateCartQuantity(loggedInCustomer.getUserId(), foodNameToUpdate, newQuantity);
+                    Response response = cartService.updateQuantityFromCart(loggedInCustomer.getUserId(), foodItem, newQuantity);
                     System.out.println(response.getMessage());
                 }, () -> System.out.println("❌ Food item not found."));
     }
@@ -268,7 +244,7 @@ public class CustomerUi extends Ui {
         String confirmation = scanner.nextLine();
 
         if (confirmation.equalsIgnoreCase("y")) {
-            Response placeOrderResponse = customerService.placeOrder(loggedInCustomer);
+            Response placeOrderResponse = orderService.placeOrder(loggedInCustomer);
             if (Boolean.FALSE.equals(placeOrderResponse.isSuccess())) {
                 System.out.println(placeOrderResponse.getMessage());
                 return false;
@@ -276,7 +252,7 @@ public class CustomerUi extends Ui {
             Order order = (Order) placeOrderResponse.getData();
 
             System.out.println(ColourCodes.BLUE + "Order placed successfully.\uD83C\uDF89 \nOrder ID: " + order.getId()
-                    + " Total Bill: " + order.getTotalBill() + "₹" + ColourCodes.RESET);
+                    + " Total Bill: " +CurrencyFormatter.format(order.getTotalBill()) + ColourCodes.RESET);
             return true;
         } else {
             System.out.println("Order not placed.");
@@ -285,17 +261,10 @@ public class CustomerUi extends Ui {
     }
 
     private void trackOrderStatus() {
-        Response allOrdersResponse = customerService.getAllOrders(loggedInCustomer);
-        if (Boolean.FALSE.equals(allOrdersResponse.isSuccess())) {
-            System.out.println(allOrdersResponse.getMessage());
-            return;
-        }
+        int orderId = validators.checkNumericInput("Enter order Id: ").intValue();
+        if (orderId == -2) return;
 
-        System.out.println("Enter order ID:");
-        int orderId = scanner.nextInt();
-        scanner.nextLine();
-
-        Response responseOrder = customerService.getOrderById(orderId);
+        Response responseOrder = orderService.getOrderById(orderId);
         if (Boolean.FALSE.equals(responseOrder.isSuccess())) {
             System.out.println(responseOrder.getMessage());
             return;
@@ -305,7 +274,7 @@ public class CustomerUi extends Ui {
     }
 
     private List<Order> getCustomerOrders() {
-        Response ordersResponse = customerService.getAllOrders(loggedInCustomer);
+        Response ordersResponse = orderService.getAllOrders();
         if (Boolean.FALSE.equals(ordersResponse.isSuccess())) {
             System.out.println(ordersResponse.getMessage());
             return List.of();
@@ -315,41 +284,22 @@ public class CustomerUi extends Ui {
                 .filter(order -> Objects.equals(order.getUser().getUserId(), loggedInCustomer.getUserId())).toList();
     }
 
-    private int promptOrderIdSelection(List<Order> orders) {
-        while (true) {
-            System.out.println("🔍 Enter the Order ID to view order details: \n" +
-                    ColourCodes.RED + "🚪 Or type 'exit' to return to the previous menu: " + ColourCodes.RESET);
-
-            String input = scanner.nextLine().trim();
-
-            if (input.equalsIgnoreCase("exit")) return -1;
-
-            if (!input.matches("\\d+")) {
-                System.out.println("Invalid input, Please enter a valid numeric ID.");
-                return -1;
-            }
-
-            int orderId = Integer.parseInt(input);
-            boolean exists = orders.stream().anyMatch(order -> order.getId() == orderId);
-            if (!exists) {
-                System.err.println("❗ No order found with ID: " + orderId);
-                return -1;
-            }
-
-            return orderId;
-        }
-    }
-
     private void viewOrderHistory() {
-        List<Order> customerOrders = getCustomerOrders();
-        if (customerOrders.isEmpty()) return;
+        List<Order> orders = getCustomerOrders();
+        if (orders.isEmpty()) return;
 
-        DataFormatter.printTable(customerOrders.stream().toList());
+        DataFormatter.printTable(orders.stream().toList());
 
-        int orderId = promptOrderIdSelection(customerOrders);
-        if (orderId == -1) return;
+        int finalOrderId = validators.checkNumericInput("🔍 Enter the Order ID to view order details: \n\uD83D\uDEAA ").intValue();
+        if (finalOrderId == -2) return;
 
-        Response responseOrder = customerService.getOrderById(orderId);
+        boolean exists = orders.stream().anyMatch(order -> order.getId() == finalOrderId);
+        if (!exists) {
+            System.err.println("❗ No order found with ID: " + finalOrderId);
+            return;
+        }
+
+        Response responseOrder = orderService.getOrderById(finalOrderId);
         if (Boolean.TRUE.equals(responseOrder.isSuccess()) || responseOrder.getData() != null) {
             Order order = (Order) responseOrder.getData();
 
@@ -361,14 +311,13 @@ public class CustomerUi extends Ui {
     }
 
     private void logoutCustomer() {
-        Response response = customerService.logoutUser(loggedInCustomer.getEmail());
-        if (Boolean.FALSE.equals(response.isSuccess())) {
-            System.out.println(response.getMessage());
+        Response res = authService.logoutUser(loggedInCustomer);
+        if (Boolean.FALSE.equals(res.isSuccess())) {
+            System.out.println(res.getMessage());
             return;
         }
-        System.out.println(response.getMessage());
+        System.out.println(res.getMessage());
         loggedInCustomer = null;
-        customerService = null;
     }
 
     @Override

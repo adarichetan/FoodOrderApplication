@@ -4,7 +4,6 @@ package com.foodorder.app.serviceImpl;
 import com.foodorder.app.dao.UserDao;
 import com.foodorder.app.entities.User;
 import com.foodorder.app.enums.ResponseStatus;
-import com.foodorder.app.factory.ServiceFactory;
 
 import com.foodorder.app.service.AuthenticationService;
 
@@ -13,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 import java.sql.SQLException;
-import java.util.List;
+
 import java.util.Optional;
 
 @Slf4j
@@ -26,45 +25,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.userDao = userDao;
     }
 
-    public Response handleRegisterAuth(User user) {
+
+    @Override
+    public Response registerUser(User user) {
         if (user == null) {
             return new Response(ResponseStatus.FAILURE, "Invalid user credentials.");
         }
 
         try {
-            List<User> existingUsers = userDao.fetchAllUsers();
-
-            if (existingUsers.isEmpty()) {
-                return new Response(ResponseStatus.FAILURE, "");
-            }
-            boolean emailExists = existingUsers.stream()
-                    .anyMatch(existingUser -> existingUser.getEmail().equalsIgnoreCase(user.getEmail()));
-
-            if (emailExists) {
-                return new Response(ResponseStatus.FAILURE, "User already exists. Please try again..");
+            Optional<User> userByEmail = userDao.findUserByEmail(user.getEmail());
+            if (userByEmail.isPresent()) {
+                return new Response(ResponseStatus.FAILURE, "User already exists. Please try again.");
             }
 
-            Response registrationResponse = registerUser(user);
-            if (Boolean.FALSE.equals(registrationResponse.isSuccess())) {
-                return registrationResponse;
-            }
-
-        } catch (Exception e) {
-            log.error("Error while fetching the users from authentication service", e);
-        }
-
-        return new Response(ResponseStatus.SUCCESS, "Registration successful. Please log in.");
-    }
-
-
-    @Override
-    public Response registerUser(User user) {
-        try {
             if (userDao.addUser(user)) {
-                return new Response(user, ResponseStatus.SUCCESS, "User added successfully.");
+                return new Response(user, ResponseStatus.SUCCESS, "Registration successful. Please log in.");
             }
         } catch (Exception e) {
-            log.error("Error from registerUser method: ", e);
+            log.error("Error during registration and authentication process: ", e);
         }
 
         return new Response(ResponseStatus.FAILURE, "An error occurred during registration. Please contact admin.");
@@ -72,17 +50,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Response loginUser(String email, String password) {
+        if (email == null || password == null) {
+            return new Response(ResponseStatus.FAILURE, "Incorrect username or password.\nPlease try again..");
+        }
+
         try {
             Optional<User> optionalUser = userDao.findUserByEmail(email.toLowerCase());
 
-            if (optionalUser.isPresent()) {
+            if (optionalUser.isPresent() && optionalUser.get().getPassword().equals(password)) {
                 User user = optionalUser.get();
-
-                if (user.getPassword().equals(password)) {
-                    return new Response(user, ResponseStatus.SUCCESS, "User successfully logged in.");
-                } else {
-                    return new Response(ResponseStatus.FAILURE, "Incorrect username or password.\nPlease try again..");
-                }
+                user.setLoggedIn(true);
+                return new Response(user, ResponseStatus.SUCCESS, "User successfully logged in.");
             } else {
                 return new Response(ResponseStatus.FAILURE, "Incorrect username or password.\nPlease try again..");
             }
@@ -91,4 +69,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return new Response(ResponseStatus.FAILURE, "An error occurred during login. Please contact admin.");
         }
     }
+
+    @Override
+    public Response logoutUser(User user) {
+        if (user == null){
+            return new Response(ResponseStatus.FAILURE, "Unable to logout customer..");
+        }
+        try {
+            user.setLoggedIn(false);
+            boolean logoutUser = userDao.updateUser(user);
+            if (logoutUser) {
+                return new Response(ResponseStatus.SUCCESS, "Logout success!");
+            }
+        } catch (SQLException e) {
+            log.error("Error from user service while attempting to logout: ", e);
+        }
+        return new Response(ResponseStatus.FAILURE, "Unable to logout customer");
+    }
+
 }

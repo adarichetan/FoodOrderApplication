@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <appender name="FileLogger" class="ch.qos.logback.core.FileAppender">
+    <appender name="RollingFileLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/app.log</file>
-        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- File name pattern for rolled files -->
+            <fileNamePattern>logs/app-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- Maximum history: how many days of logs to keep -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{1} - %msg%n</pattern>
         </encoder>
     </appender>
 
     <root level="debug">
-        <appender-ref ref="FileLogger" />
+        <appender-ref ref="RollingFileLogger" />
     </root>
-</configuration>
 
+</configuration>

@@ -11,14 +11,21 @@ public class UiFactory {
         return switch (role) {
             case ADMIN -> new AdminUi(
                     serviceFactory.getScanner(),
+                    serviceFactory.getValidators(),
                     serviceFactory.getAdminService(),
                     serviceFactory.getRestaurantService(),
-                    serviceFactory.getOrderService());
+                    serviceFactory.getOrderService(),
+                    serviceFactory.getAuthenticationService()
+            );
 
             case CUSTOMER -> new CustomerUi(
                     serviceFactory.getScanner(),
                     serviceFactory.getRestaurantService(),
-                    serviceFactory.getCustomerService());
+                    serviceFactory.getCustomerService(),
+                    serviceFactory.getCartService(),
+                    serviceFactory.getOrderService(),
+                    serviceFactory.getValidators(),
+                    serviceFactory.getAuthenticationService());
         };
     }
 }

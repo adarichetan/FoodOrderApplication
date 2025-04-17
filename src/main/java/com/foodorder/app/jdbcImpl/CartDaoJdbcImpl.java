@@ -18,7 +18,6 @@ import java.util.List;
 
 @Slf4j
 public class CartDaoJdbcImpl implements CartDao {
-
     private static final CartDaoJdbcImpl cartDaoJdbc = new CartDaoJdbcImpl();
     private Connection con;
 

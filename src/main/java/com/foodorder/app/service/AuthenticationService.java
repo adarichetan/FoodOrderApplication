@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public interface AuthenticationService {
     Response loginUser(String email, String password);
 
-    Response handleRegisterAuth(User user);
+    Response registerUser(User user);
 
-    Response registerUser(User user) throws SQLException;
+    Response logoutUser(User user);
 }

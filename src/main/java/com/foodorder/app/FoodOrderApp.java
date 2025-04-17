@@ -2,7 +2,6 @@ package com.foodorder.app;
 
 import com.foodorder.app.entities.User;
 import com.foodorder.app.enums.UserRole;
-import com.foodorder.app.factory.DaoFactory;
 import com.foodorder.app.factory.ServiceFactory;
 import com.foodorder.app.factory.UiFactory;
 import com.foodorder.app.service.AuthenticationService;
@@ -55,10 +54,10 @@ public class FoodOrderApp {
     private void loginFlow() {
         MenuPrinter.displayLoginMenu();
 
-        String email = validators.getValidInput("Enter Email: ");
+        String email = validators.checkStringInput("Enter your email: ");
         if (email == null) return;
 
-        String password = validators.getValidInput("Enter Password: ");
+        String password = validators.checkStringInput("Enter your password: ");
         if (password == null) return;
 
         Response loginResponse = authService.loginUser(email, password);
@@ -77,16 +76,16 @@ public class FoodOrderApp {
         MenuPrinter.displayRegistrationMenu();
 
         while (true) {
-            String name = validators.getValidInput("Enter Name: ");
+            String name = validators.getValidName();
             if (name == null) return;
 
-            String address = validators.getValidInput("Enter Address: ");
+            String address = validators.getValidAddress();
             if (address == null) return;
 
-            String email = validators.getValidEmailInput();
+            String email = validators.getValidEmail();
             if (email == null) return;
 
-            String password = validators.getValidPasswordInput();
+            String password = validators.getValidPassword();
             if (password == null) return;
 
             User newUser = User.builder()
@@ -97,7 +96,7 @@ public class FoodOrderApp {
                     .role(UserRole.CUSTOMER)
                     .build();
 
-            Response response = authService.handleRegisterAuth(newUser);
+            Response response = authService.registerUser(newUser);
 
             if (Boolean.TRUE.equals(response.isSuccess())) {
                 System.out.println(response.getMessage());

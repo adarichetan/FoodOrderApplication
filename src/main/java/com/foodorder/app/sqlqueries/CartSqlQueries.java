@@ -11,8 +11,6 @@ public class CartSqlQueries {
 
     public static final String DELETE_CART_ITEMS_BY_USER_ID = "DELETE FROM cart_items WHERE user_id = ?";
 
-
-    //TODO check
     public static final String SELECT_FOOD_ID_BY_NAME = " SELECT id FROM food WHERE name ILIKE ?";
 
     public static final String SELECT_CART_ITEMS_BY_USER_ID = """

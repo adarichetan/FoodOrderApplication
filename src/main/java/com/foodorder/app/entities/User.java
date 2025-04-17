@@ -7,8 +7,7 @@ import lombok.*;
 import java.util.List;
 @Builder
 @Data
-public class
-User implements Formattable {
+public class User implements Formattable {
     private Integer userId;
     private String name;
     private String email;
@@ -19,7 +18,7 @@ User implements Formattable {
 
     @Override
     public List<String> getColumns() {
-        return List.of("id", "Name", "Email", "role", "Logged in");
+        return List.of("USER ID", "NAME", "EMAIL", "ROLE-TYPE", "LOGGED-IN-STATUS");
     }
 
     @Override
