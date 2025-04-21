@@ -21,13 +21,12 @@ public class CartItem implements Formattable {
 
     @Override
     public List<String> getColumns() {
-        return List.of("NAME", "CATEGORY", "QUANTITY", "PRICE");
+        return List.of("NAME", "CATEGORY","PRICE", "QUANTITY");
     }
 
     @Override
     public List<String> getValues() {
-        return List.of(this.foodItem.getName(), String.valueOf(this.foodItem.getCategory()), String.valueOf(this.quantity),
-                CurrencyFormatter.format(foodItem.getPrice()));
+        return List.of(this.foodItem.getName(), String.valueOf(this.foodItem.getCategory()),  CurrencyFormatter.format(foodItem.getPrice()), String.valueOf(this.quantity));
     }
 
     @Override
