@@ -97,7 +97,7 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     @Override
-    public boolean updateUser(User user) throws SQLException {
+    public Optional<User> updateUser(User user) throws SQLException {
         Optional<User> userByEmail = findUserByEmail(user.getEmail());
         if (userByEmail.isPresent()) {
             try (PreparedStatement ps = con.prepareStatement(UserSqlQueries.UPDATE_USER)) {
@@ -109,9 +109,13 @@ public class UserDaoJdbcImpl implements UserDao {
                 ps.setBoolean(6, user.isLoggedIn());
                 ps.setInt(7, user.getUserId());
 
-                return ps.executeUpdate() > 0;
+
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected > 0){
+                    return Optional.of(user);
+                }
             }
         }
-        return false;
+        return Optional.empty();
     }
 }

@@ -59,8 +59,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             if (optionalUser.isPresent() && optionalUser.get().getPassword().equals(password)) {
                 User user = optionalUser.get();
-                user.setLoggedIn(true);
-                return new Response(user, ResponseStatus.SUCCESS, "User successfully logged in.");
+
+                Response response = setLoginStatus(user);
+                if (Boolean.FALSE.equals(response.isSuccess())) {
+                    return response;
+                }
+                return response;
+
             } else {
                 return new Response(ResponseStatus.FAILURE, "Incorrect username or password.\nPlease try again..");
             }
@@ -70,15 +75,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
+    public Response setLoginStatus(User user) {
+        if (user == null) {
+            return new Response(ResponseStatus.FAILURE, "Unable to logout customer..");
+        }
+
+        try {
+            user.setLoggedIn(true);
+            Optional<User> loginUser = userDao.updateUser(user);
+            if (loginUser.isPresent()) {
+                return new Response(loginUser.get(), ResponseStatus.SUCCESS, "User successfully logged in.");
+            }
+
+        } catch (SQLException e) {
+            log.error("Error from user service while attempting to logout: ", e);
+        }
+
+        return new Response(ResponseStatus.FAILURE, "Error while login. Please try again..");
+    }
+
     @Override
     public Response logoutUser(User user) {
-        if (user == null){
+        if (user == null) {
             return new Response(ResponseStatus.FAILURE, "Unable to logout customer..");
         }
         try {
             user.setLoggedIn(false);
-            boolean logoutUser = userDao.updateUser(user);
-            if (logoutUser) {
+            Optional<User> logoutUser = userDao.updateUser(user);
+            if (logoutUser.isPresent())
+           {
                 return new Response(ResponseStatus.SUCCESS, "Logout success!");
             }
         } catch (SQLException e) {
@@ -86,5 +111,4 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         return new Response(ResponseStatus.FAILURE, "Unable to logout customer");
     }
-
 }

@@ -1,0 +1,46 @@
+2025-04-23 11:05:13 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-23 11:21:29 [main] INFO  c.f.a.u.ConnectionUtility - Database connection closed successfully.
+2025-04-23 11:21:35 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-23 11:49:43 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-23 11:49:46 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-23 16:40:24 [main] INFO  c.f.a.FoodOrderApp - Application started...
+2025-04-23 17:02:00 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:29)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-23 17:04:32 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:29)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-23 17:04:34 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:29)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-23 17:05:41 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:29)
+	at com.foodorder.app.Main.main(Main.java:9)
+2025-04-23 17:05:44 [main] ERROR c.f.a.FoodOrderApp - Input error:
+java.util.InputMismatchException: null
+	at java.base/java.util.Scanner.throwFor(Scanner.java:947)
+	at java.base/java.util.Scanner.next(Scanner.java:1602)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2267)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2221)
+	at com.foodorder.app.FoodOrderApp.run(FoodOrderApp.java:29)
+	at com.foodorder.app.Main.main(Main.java:9)

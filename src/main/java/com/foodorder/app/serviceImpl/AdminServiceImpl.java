@@ -25,7 +25,7 @@ public class AdminServiceImpl implements AdminService {
         try {
 
             if (userDao.grantAccessAsAdmin(name)) {
-                return new Response(ResponseStatus.SUCCESS, "User granted Admin access");
+                return new Response(ResponseStatus.SUCCESS, "✅ User granted Admin access.");
             }
 
         } catch (SQLException e) {

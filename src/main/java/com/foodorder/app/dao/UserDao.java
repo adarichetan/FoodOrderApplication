@@ -15,9 +15,5 @@ public interface UserDao {
 
     List<User> fetchAllUsers() throws SQLException;
 
-//    boolean setLoginStatus(String email) throws SQLException;
-//
-//    boolean logoutUser(String email) throws SQLException;
-
-    boolean updateUser(User user) throws SQLException;
+    Optional<User> updateUser(User user) throws SQLException;
 }
