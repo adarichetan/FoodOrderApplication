@@ -10,7 +10,7 @@ import java.util.List;
 public interface CartDao {
     boolean addToCart(User user, FoodItem foodItem, int quantity) throws SQLException;
 
-    List<CartItem> getCartItems(User user) throws SQLException;
+    List<CartItem> getCartByUserId(User user) throws SQLException;
 
     boolean clearCart(User userId) throws SQLException;
 

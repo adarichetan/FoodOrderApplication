@@ -8,9 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +30,7 @@ public class Order implements Formattable {
     private Timestamp orderOn;
 
     @Enumerated(EnumType.STRING)
+
     private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -52,7 +51,6 @@ public class Order implements Formattable {
     public List<String> getColumns() {
         return List.of("ORDER ID", "ORDER DATE", "STATUS", "TOTAL BILL");
     }
-
 
     @Override
     public List<String> getValues() {

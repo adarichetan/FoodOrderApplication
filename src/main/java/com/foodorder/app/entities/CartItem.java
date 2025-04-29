@@ -15,18 +15,28 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "cart_items")
+@NamedQueries({
+        @NamedQuery(
+                name = "getCartByUserId",
+                query = "SELECT c FROM CartItem c WHERE c.user.userId = :userId "),
+        @NamedQuery(name = "deleteItemsFromCart",
+                query = "DELETE FROM CartItem c WHERE c.user.userId = :userId AND c.foodItem.name = :name")
+}
+)
+@Table(name = "cart_items", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_userId", "foodItem_id"})
+})
 public class CartItem implements Formattable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne
+    @ManyToOne
     private FoodItem foodItem;
 
     private Integer quantity;
 
-    @OneToOne
+    @ManyToOne
     private User user;
 
     public double getTotalPrice() {
@@ -35,12 +45,12 @@ public class CartItem implements Formattable {
 
     @Override
     public List<String> getColumns() {
-        return List.of("NAME", "CATEGORY","PRICE", "QUANTITY");
+        return List.of("NAME", "CATEGORY", "PRICE", "QUANTITY");
     }
 
     @Override
     public List<String> getValues() {
-        return List.of(this.foodItem.getName(), String.valueOf(this.foodItem.getCategory()),  CurrencyFormatter.format(foodItem.getPrice()), String.valueOf(this.quantity));
+        return List.of(this.foodItem.getName(), String.valueOf(this.foodItem.getCategory()), CurrencyFormatter.format(foodItem.getPrice()), String.valueOf(this.quantity));
     }
 
     @Override

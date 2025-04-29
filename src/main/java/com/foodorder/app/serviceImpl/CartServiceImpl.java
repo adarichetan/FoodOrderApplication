@@ -36,7 +36,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public Response getCartItems(User user) {
         try {
-            List<CartItem> cartItems = cartDao.getCartItems(user);
+            List<CartItem> cartItems = cartDao.getCartByUserId(user);
             if (!cartItems.isEmpty())
                 return new Response(cartItems, ResponseStatus.SUCCESS, "Successfully fetched the data");
 
@@ -79,5 +79,4 @@ public class CartServiceImpl implements CartService {
         }
         return new Response(ResponseStatus.FAILURE, "Not able to delete the food item.");
     }
-
 }

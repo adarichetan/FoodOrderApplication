@@ -46,7 +46,7 @@ public class CartDaoImpl implements CartDao {
     }
 
     @Override
-    public List<CartItem> getCartItems(User user) {
+    public List<CartItem> getCartByUserId(User user) {
         return cartData.stream()
                 .filter(cartItem -> cartItem.getUser().getEmail().equalsIgnoreCase(user.getEmail()))
                 .toList();

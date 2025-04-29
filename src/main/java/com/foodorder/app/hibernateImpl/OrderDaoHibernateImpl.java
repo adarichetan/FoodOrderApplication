@@ -12,6 +12,9 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +34,7 @@ public class OrderDaoHibernateImpl implements OrderDao {
                     .user(user)
                     .orderStatus(OrderStatus.ORDERED)
                     .orderItems(new ArrayList<>())
+                    .orderOn(Timestamp.valueOf(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)))
                     .totalBill(0.0)
                     .build();
 

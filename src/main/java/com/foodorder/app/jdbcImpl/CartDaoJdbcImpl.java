@@ -63,7 +63,7 @@ public class CartDaoJdbcImpl implements CartDao {
     }
 
     @Override
-    public List<CartItem> getCartItems(User user) throws SQLException {
+    public List<CartItem> getCartByUserId(User user) throws SQLException {
         List<CartItem> cartItems = new ArrayList<>();
 
         try (PreparedStatement getStmt = con.prepareStatement(CartSqlQueries.SELECT_CART_ITEMS_BY_USER_ID)) {

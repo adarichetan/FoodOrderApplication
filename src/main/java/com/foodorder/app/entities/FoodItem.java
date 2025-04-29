@@ -29,13 +29,7 @@ public class FoodItem implements Formattable {
     @Enumerated(EnumType.STRING)
     private FoodCategory category;
 
-
     private Integer restaurantId;
-
-//    @ManyToOne
-//    @JoinColumn(name = "restaurant_id")
-//    private Restaurant restaurant;
-
 
     @Override
     public List<String> getColumns() {

@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Response placeOrder(User user) {
         try {
-            List<CartItem> cartItems = cartDao.getCartItems(user);
+            List<CartItem> cartItems = cartDao.getCartByUserId(user);
             if (cartItems.isEmpty()) {
                 return new Response(ResponseStatus.FAILURE, "❗ Your cart is empty.");
             }

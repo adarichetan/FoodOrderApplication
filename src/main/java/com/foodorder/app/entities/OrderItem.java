@@ -19,22 +19,15 @@ public class OrderItem implements Formattable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne
+    @ManyToOne
     private FoodItem foodItem;
+
     private Integer quantity;
 
     @ManyToOne
     private Order order;
 
-    private double price;
-
-//    public OrderItem(Order order, FoodItem foodItem, Integer quantity) {
-//        this.id = java.util.concurrent.ThreadLocalRandom.current().nextInt(1, 5000);
-//        this.order = order;
-//        this.foodItem = foodItem;
-//        this.quantity = quantity;
-//        this.price = foodItem.getPrice() * quantity;
-//    }
+    private Double price;
 
     @Override
     public List<String> getColumns() {
