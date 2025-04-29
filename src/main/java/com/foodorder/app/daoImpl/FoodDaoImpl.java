@@ -13,12 +13,12 @@ public class FoodDaoImpl implements FoodDao {
 
     private void initFoodItems() {
         List<FoodItem> foodItemList = new ArrayList<>();
-        foodItemList.add(FoodItem.builder().name("PaneerTikka").price(150).category(FoodCategory.VEG).restaurantId(1001).build());
-        foodItemList.add(FoodItem.builder().name("ChickenCurry").price(130).category(FoodCategory.NONVEG).restaurantId(1001).build());
-        foodItemList.add(FoodItem.builder().name("DumBiryani").price(200).category(FoodCategory.NONVEG).restaurantId(1001).build());
-        foodItemList.add(FoodItem.builder().name("Lassi").price(40).category(FoodCategory.BEVERAGES).restaurantId(1001).build());
-        foodItemList.add(FoodItem.builder().name("Pasta").price(60).category(FoodCategory.VEG).restaurantId(1001).build());
-        foodItemList.add(FoodItem.builder().name("ButterMilk").price(40).category(FoodCategory.BEVERAGES).restaurantId(1001).build());
+        foodItemList.add(FoodItem.builder().name("PaneerTikka").price(150.00).category(FoodCategory.VEG).restaurantId(1001).build());
+        foodItemList.add(FoodItem.builder().name("ChickenCurry").price(130.00).category(FoodCategory.NONVEG).restaurantId(1001).build());
+        foodItemList.add(FoodItem.builder().name("DumBiryani").price(200.00).category(FoodCategory.NONVEG).restaurantId(1001).build());
+        foodItemList.add(FoodItem.builder().name("Lassi").price(40.00).category(FoodCategory.BEVERAGES).restaurantId(1001).build());
+        foodItemList.add(FoodItem.builder().name("Pasta").price(60.00).category(FoodCategory.VEG).restaurantId(1001).build());
+        foodItemList.add(FoodItem.builder().name("ButterMilk").price(40.00).category(FoodCategory.BEVERAGES).restaurantId(1001).build());
         foodItems.addAll(foodItemList);
     }
 
@@ -31,7 +31,7 @@ public class FoodDaoImpl implements FoodDao {
     }
 
     @Override
-    public boolean addFood(FoodItem foodItem) {
+    public boolean saveFood(FoodItem foodItem) {
         foodItem.setId(getIdGenerator());
         return foodItems.add(foodItem);
     }

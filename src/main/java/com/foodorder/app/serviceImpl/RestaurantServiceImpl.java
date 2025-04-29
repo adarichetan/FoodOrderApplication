@@ -76,13 +76,16 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Response addFood(FoodItem foodItem) {
         Response allFood = getAllFood();
         List<FoodItem> data = (List<FoodItem>) allFood.getData();
+        if (data == null || data.isEmpty()){
+            return new Response(ResponseStatus.FAILURE, "Cannot add food item.. Please contact admin. ");
+        }
         Optional<FoodItem> foodItemPresent = data.stream().filter(foodItem1 -> foodItem1.getName().equalsIgnoreCase(foodItem.getName())).findFirst();
         if (foodItemPresent.isPresent()) {
             return new Response(ResponseStatus.FAILURE, "Food item is already present.");
 
         }
         try {
-            if (foodDaoDao.addFood(foodItem)) {
+            if (foodDaoDao.saveFood(foodItem)) {
                 response = new Response(ResponseStatus.SUCCESS, "✅ Food successfully added.");
             } else {
                 response = new Response(ResponseStatus.FAILURE, "❗ Food not added.");

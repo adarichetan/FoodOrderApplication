@@ -21,11 +21,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Response grantAccess(String name) {
+    public Response grantAccess(int id) {
         try {
 
-            if (userDao.grantAccessAsAdmin(name)) {
-                return new Response(ResponseStatus.SUCCESS, "User granted Admin access");
+            if (userDao.grantAccessAsAdmin(id)) {
+                return new Response(ResponseStatus.SUCCESS, "✅ User granted Admin access.");
             }
 
         } catch (SQLException e) {

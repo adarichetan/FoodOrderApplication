@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 @Slf4j
@@ -83,12 +84,17 @@ public class AdminUi extends Ui {
         String userName = validators.checkStringInput("\uD83D\uDC64 Enter the name of the user you'd like to authorize as Admin: \n↩\uFE0F ");
         if (userName == null) return;
 
-        if (usersData.stream().noneMatch(user -> user.getName().equalsIgnoreCase(userName))) {
+//        if (usersData.stream().noneMatch(user -> user.getName().equalsIgnoreCase(userName))) {
+//            System.out.println("❗ No user found with specified name." + userName);
+//            return;
+//        }
+
+        Optional<User> first = usersData.stream().filter(user -> user.getName().equalsIgnoreCase(userName)).findFirst();
+        if (first.isEmpty()) {
             System.out.println("❗ No user found with specified name." + userName);
             return;
         }
-
-        Response response = adminService.grantAccess(userName);
+        Response response = adminService.grantAccess(first.get().getUserId());
         if (Boolean.FALSE.equals(response.isSuccess())) {
             System.out.println(response.getMessage());
             return;

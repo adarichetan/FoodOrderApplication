@@ -71,7 +71,6 @@ public class CustomerUi extends Ui {
         Response allFoodResponse = restaurantService.getAllFood();
         List<FoodItem> foodItems = (List<FoodItem>) allFoodResponse.getData();
         DataFormatter.printTable(foodItems);
-
     }
 
     private void addToCart() {
@@ -234,7 +233,7 @@ public class CustomerUi extends Ui {
                         System.out.println("That quantity seems too high. it should be less than 500.");
                         return;
                     }
-                    Response response = cartService.updateQuantityFromCart(loggedInCustomer.getUserId(), foodItem, newQuantity);
+                    Response response = cartService.updateQuantityFromCart(loggedInCustomer.getUserId(), cartItem.getFoodItem().getName(), newQuantity);
                     System.out.println(response.getMessage());
                 }, () -> System.out.println("❌ Food item not found."));
     }

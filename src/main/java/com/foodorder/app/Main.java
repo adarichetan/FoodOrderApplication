@@ -5,7 +5,7 @@ import com.foodorder.app.factory.DaoFactory;
 
 public class Main {
     public static void main(String[] args) {
-        DaoFactory.setDaoType(DaoFactory.DaoType.JDBC);
+        DaoFactory.setDaoType(DaoFactory.DaoType.HIBERNATE);
         new FoodOrderApp().run();
     }
 }

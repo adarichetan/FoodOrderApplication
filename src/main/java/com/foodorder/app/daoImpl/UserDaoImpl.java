@@ -5,7 +5,6 @@ import com.foodorder.app.dao.UserDao;
 import com.foodorder.app.entities.User;
 import com.foodorder.app.enums.UserRole;
 
-import java.sql.SQLException;
 import java.util.*;
 
 public class UserDaoImpl implements UserDao {
@@ -31,9 +30,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean grantAccessAsAdmin(String name) {
+    public boolean grantAccessAsAdmin(int userId) {
         Optional<User> first = users.stream()
-                .filter(u -> u.getName().equalsIgnoreCase(name))
+                .filter(u -> u.getUserId()== userId)
                 .findFirst();
 
         if (first.isPresent()) {
@@ -44,9 +43,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean addUser(User user) {
+    public Optional<User> saveUser(User user) {
         user.setUserId(getIdGenerator());
-        return users.add(user);
+        boolean add = users.add(user);
+       if (add){
+           return Optional.of(user);
+       }
+        return Optional.empty();
     }
 
     private int getIdGenerator() {
@@ -66,7 +69,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public Optional<User> updateUser(User user) {
         Optional<User> first = users.stream().filter(u -> Objects.equals(u.getUserId(), user.getUserId())).findFirst();
         if (first.isPresent()) {
             User existingUser = first.get();
@@ -75,10 +78,10 @@ public class UserDaoImpl implements UserDao {
             existingUser.setEmail(user.getEmail());
             existingUser.setName(user.getName());
             existingUser.setPassword(user.getPassword());
-            existingUser.setLoggedIn(user.isLoggedIn());
+            existingUser.setIsLoggedIn(user.getIsLoggedIn());
 
-            return true;
+            return Optional.of(user);
         }
-        return false;
+        return Optional.empty();
     }
 }

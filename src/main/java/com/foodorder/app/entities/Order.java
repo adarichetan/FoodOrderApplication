@@ -4,23 +4,39 @@ package com.foodorder.app.entities;
 import com.foodorder.app.enums.OrderStatus;
 import com.foodorder.app.utility.CurrencyFormatter;
 import com.foodorder.app.utility.Formattable;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "orders")
 public class Order implements Formattable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @ManyToOne
     private User user;
+
     private Timestamp orderOn;
+
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-    private List<OrderItem> orderItems;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
+
     private double totalBill;
 
     public void addOrderItem(OrderItem orderItem) {

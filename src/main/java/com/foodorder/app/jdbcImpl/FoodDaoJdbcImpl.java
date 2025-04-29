@@ -29,7 +29,7 @@ public class FoodDaoJdbcImpl implements FoodDao {
     }
 
     @Override
-    public boolean addFood(FoodItem item) throws SQLException {
+    public boolean saveFood(FoodItem item) throws SQLException {
         try (PreparedStatement addStmt = con.prepareStatement(FoodSqlQueries.INSERT_FOOD)) {
             addStmt.setString(1, item.getName());
             addStmt.setDouble(2, item.getPrice());

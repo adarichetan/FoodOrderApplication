@@ -31,15 +31,15 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     @Override
-    public boolean grantAccessAsAdmin(String name) throws SQLException {
+    public boolean grantAccessAsAdmin(int userId) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(UserSqlQueries.GRANT_ADMIN)) {
-            ps.setString(1, name);
+            ps.setInt(1, userId);
             return ps.executeUpdate() > 0;
         }
     }
 
     @Override
-    public boolean addUser(User user) throws SQLException {
+    public Optional<User> saveUser(User user) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(UserSqlQueries.INSERT_USER)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getPassword());
@@ -47,7 +47,12 @@ public class UserDaoJdbcImpl implements UserDao {
             ps.setString(4, user.getAddress());
             ps.setString(5, user.getRole().name());
 
-            return ps.executeUpdate() > 0;
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                return Optional.of(user);
+            } else {
+                return Optional.empty();
+            }
         }
     }
 
@@ -97,7 +102,7 @@ public class UserDaoJdbcImpl implements UserDao {
     }
 
     @Override
-    public boolean updateUser(User user) throws SQLException {
+    public Optional<User> updateUser(User user) throws SQLException {
         Optional<User> userByEmail = findUserByEmail(user.getEmail());
         if (userByEmail.isPresent()) {
             try (PreparedStatement ps = con.prepareStatement(UserSqlQueries.UPDATE_USER)) {
@@ -106,12 +111,15 @@ public class UserDaoJdbcImpl implements UserDao {
                 ps.setString(3, user.getEmail());
                 ps.setString(4, user.getAddress());
                 ps.setString(5, user.getRole().toString());
-                ps.setBoolean(6, user.isLoggedIn());
+                ps.setBoolean(6, user.getIsLoggedIn());
                 ps.setInt(7, user.getUserId());
 
-                return ps.executeUpdate() > 0;
+                int rowsAffected = ps.executeUpdate();
+                if (rowsAffected > 0) {
+                    return Optional.of(user);
+                }
             }
         }
-        return false;
+        return Optional.empty();
     }
 }

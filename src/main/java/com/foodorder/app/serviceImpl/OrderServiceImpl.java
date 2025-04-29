@@ -34,8 +34,13 @@ public class OrderServiceImpl implements OrderService {
                 return new Response(ResponseStatus.FAILURE, "❗ Your cart is empty.");
             }
 
-            Optional<Order> order = orderDao.placeOrder(user);
+            Optional<Order> order = orderDao.placeOrder(user, cartItems);
             if (order.isPresent()) {
+                boolean b = cartDao.clearCart(user);
+                if (! b){
+                    return new Response(ResponseStatus.FAILURE, "Unable to clear the existing cart.. please contact admin");
+                }
+
                 simulateOrderProcessing(order.get());
                 return new Response(order.get(), ResponseStatus.SUCCESS, "Order placed successfully.\uD83C\uDF89");
             }
@@ -60,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Response getAllOrders() {
         try {
-            List<Order>  allOrders = orderDao.getAllOrders();
+            List<Order> allOrders = orderDao.getAllOrders();
 
             if (!allOrders.isEmpty()) {
                 return new Response(allOrders, ResponseStatus.SUCCESS, "Successfully fetched orders.");

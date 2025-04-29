@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class OrderDaoImpl implements OrderDao {
-    private final List<Order> orders =  Collections.synchronizedList (new ArrayList<>());
+    private final List<Order> orders = Collections.synchronizedList(new ArrayList<>());
     private final AtomicInteger idCounter = new AtomicInteger(1);
     @Getter
     private static final OrderDao orderDao = new OrderDaoImpl();
@@ -24,7 +24,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> placeOrder(User user) {
+    public Optional<Order> placeOrder(User user, List<CartItem> userCart ) {
         Order order = Order.builder().id(idCounter.getAndIncrement())
                 .user(user)
                 .orderStatus(OrderStatus.ORDERED)
@@ -33,10 +33,10 @@ public class OrderDaoImpl implements OrderDao {
                 .build();
         orders.add(order);
 
-        List<CartItem> userCart = CartDaoImpl.getCartDaoImpl().getCartItems(user);
-
         for (CartItem cartItem : userCart) {
-                    OrderItem orderItem = new OrderItem(order, cartItem.getFoodItem(), cartItem.getQuantity());
+            OrderItem orderItem = OrderItem.builder().
+                    order(order).foodItem(cartItem.getFoodItem()).quantity(cartItem.getQuantity()).
+                    build();
             order.addOrderItem(orderItem);
         }
 

@@ -3,19 +3,39 @@ package com.foodorder.app.entities;
 import com.foodorder.app.enums.FoodCategory;
 import com.foodorder.app.utility.CurrencyFormatter;
 import com.foodorder.app.utility.Formattable;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "food")
 public class FoodItem implements Formattable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
-    private double price;
+
+    private Double price;
+
+    @Enumerated(EnumType.STRING)
     private FoodCategory category;
+
+
     private Integer restaurantId;
+
+//    @ManyToOne
+//    @JoinColumn(name = "restaurant_id")
+//    private Restaurant restaurant;
+
 
     @Override
     public List<String> getColumns() {

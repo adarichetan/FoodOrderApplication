@@ -42,6 +42,10 @@ public class ManageFoodItemsUi {
                 log.error("Error from restaurant food Ui: ", e);
                 System.out.println("invalid input");
                 scanner.nextLine();
+            } catch (Exception e) {
+                log.error("Unexpected error:", e);
+                System.err.println("⚠️ Something went wrong. Please contact admin.");
+                scanner.nextLine();
             }
         }
     }

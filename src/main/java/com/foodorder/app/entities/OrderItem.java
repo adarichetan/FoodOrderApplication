@@ -2,6 +2,7 @@ package com.foodorder.app.entities;
 
 import com.foodorder.app.utility.CurrencyFormatter;
 import com.foodorder.app.utility.Formattable;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -9,20 +10,31 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
+@Entity
+@Table(name = "order_items")
 public class OrderItem implements Formattable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @OneToOne
     private FoodItem foodItem;
-    private int quantity;
+    private Integer quantity;
+
+    @ManyToOne
     private Order order;
+
     private double price;
 
-    public OrderItem(Order order, FoodItem foodItem, int quantity) {
-        this.id = java.util.concurrent.ThreadLocalRandom.current().nextInt(1, 5000);
-        this.order = order;
-        this.foodItem = foodItem;
-        this.quantity = quantity;
-        this.price = foodItem.getPrice() * quantity;
-    }
+//    public OrderItem(Order order, FoodItem foodItem, Integer quantity) {
+//        this.id = java.util.concurrent.ThreadLocalRandom.current().nextInt(1, 5000);
+//        this.order = order;
+//        this.foodItem = foodItem;
+//        this.quantity = quantity;
+//        this.price = foodItem.getPrice() * quantity;
+//    }
 
     @Override
     public List<String> getColumns() {

@@ -1,5 +1,8 @@
 package com.foodorder.app.utility;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
@@ -45,4 +48,13 @@ public class ConnectionUtility {
         }
     }
 
+    private static EntityManager manager;
+
+    public static EntityManager getEntityManager() {
+        if (manager == null) {
+            final EntityManagerFactory factory = Persistence.createEntityManagerFactory("myJpaUnit");
+            manager = factory.createEntityManager();
+        }
+        return manager;
+    }
 }

@@ -34,7 +34,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
     }
 
     @Override
-    public Optional<Order> placeOrder(User user) throws SQLException {
+    public Optional<Order> placeOrder(User user, List<CartItem> cartItems) throws SQLException {
 
 
         try (PreparedStatement ps = con.prepareStatement(OrderSqlQueries.INSERT_ORDER, Statement.RETURN_GENERATED_KEYS)) {
@@ -51,7 +51,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
             if (!rs.next()) return Optional.empty();
 
             int orderId = rs.getInt(1);
-            List<CartItem> cartItems = getCartItemsByUserId(user);
+
             if (cartItems.isEmpty()) {
                 return Optional.empty();
             }
@@ -100,32 +100,32 @@ public class OrderDaoJdbcImpl implements OrderDao {
         }
     }
 
-    private List<CartItem> getCartItemsByUserId(User user) throws SQLException {
-        List<CartItem> cartItems = new ArrayList<>();
-
-        try (PreparedStatement stmt = con.prepareStatement(OrderSqlQueries.SELECT_CART_ITEMS_BY_USER_ID)) {
-            stmt.setInt(1, user.getUserId());
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                FoodItem foodItem = FoodItem.builder()
-                        .id(rs.getInt("food_id"))
-                        .name(rs.getString("name"))
-                        .price(rs.getDouble("price"))
-                        .category(FoodCategory.valueOf(rs.getString("category")))
-                        .restaurantId(rs.getInt("restaurant_id"))
-                        .build();
-
-                CartItem cartItem = CartItem.builder().
-                        id(rs.getInt("id")).
-                        foodItem(foodItem)
-                        .quantity(rs.getInt("quantity")).
-                        build();
-                cartItems.add(cartItem);
-            }
-        }
-        return cartItems;
-    }
+//    private List<CartItem> getCartItemsByUserId(User user) throws SQLException {
+//        List<CartItem> cartItems = new ArrayList<>();
+//
+//        try (PreparedStatement stmt = con.prepareStatement(OrderSqlQueries.SELECT_CART_ITEMS_BY_USER_ID)) {
+//            stmt.setInt(1, user.getUserId());
+//
+//            ResultSet rs = stmt.executeQuery();
+//            while (rs.next()) {
+//                FoodItem foodItem = FoodItem.builder()
+//                        .id(rs.getInt("food_id"))
+//                        .name(rs.getString("name"))
+//                        .price(rs.getDouble("price"))
+//                        .category(FoodCategory.valueOf(rs.getString("category")))
+//                        .restaurantId(rs.getInt("restaurant_id"))
+//                        .build();
+//
+//                CartItem cartItem = CartItem.builder().
+//                        id(rs.getInt("id")).
+//                        foodItem(foodItem)
+//                        .quantity(rs.getInt("quantity")).
+//                        build();
+//                cartItems.add(cartItem);
+//            }
+//        }
+//        return cartItems;
+//    }
 
     private List<OrderItem> getOrderedItems(int orderId) throws SQLException {
 
