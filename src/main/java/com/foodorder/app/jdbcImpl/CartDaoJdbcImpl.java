@@ -94,7 +94,7 @@ public class CartDaoJdbcImpl implements CartDao {
     public boolean clearCart(User user) throws SQLException {
         try (PreparedStatement stmt = con.prepareStatement(CartSqlQueries.DELETE_CART_ITEMS_BY_USER_ID)) {
             stmt.setInt(1, user.getUserId());
-            return stmt.executeUpdate() > 0;
+            return stmt.executeUpdate() > 0;    
         }
     }
 

@@ -13,6 +13,15 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{1} - %msg%n</pattern>
         </encoder>
     </appender>
+    <!-- Hibernate SQL logger -->
+    <logger name="org.hibernate.SQL" level="debug" additivity="false">
+        <appender-ref ref="RollingFileLogger"/>
+    </logger>
+
+    <!-- Hibernate parameter binding logs -->
+    <logger name="org.hibernate.orm.jdbc.bind" level="trace" additivity="false">
+        <appender-ref ref="RollingFileLogger"/>
+    </logger>
 
     <root level="debug">
         <appender-ref ref="RollingFileLogger" />

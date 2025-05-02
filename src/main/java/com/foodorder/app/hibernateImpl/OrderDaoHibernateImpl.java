@@ -9,6 +9,7 @@ import com.foodorder.app.entities.User;
 import com.foodorder.app.enums.OrderStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 
@@ -26,9 +27,7 @@ public class OrderDaoHibernateImpl implements OrderDao {
 
     @Override
     public Optional<Order> placeOrder(User user, List<CartItem> userCart) {
-
         try {
-            tx.begin();
 
             Order newOrder = Order.builder()
                     .user(user)
@@ -54,12 +53,14 @@ public class OrderDaoHibernateImpl implements OrderDao {
 
             newOrder.setTotalBill(totalBill);
 
+            tx.begin();
             manager.persist(newOrder);
             tx.commit();
+
             return Optional.of(newOrder);
-        } catch (Exception e) {
-            tx.rollback();
-            throw new RuntimeException(e);
+        } catch (PersistenceException e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Failed to place order", e);
         }
     }
 
@@ -70,18 +71,22 @@ public class OrderDaoHibernateImpl implements OrderDao {
             Order order = manager.find(Order.class, id);
 
             tx.commit();
-            return Optional.of(order);
-        } catch (Exception e) {
-            tx.rollback();
-            throw new RuntimeException(e);
+            return Optional.ofNullable(order);
+        } catch (PersistenceException e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Failed to fetch order by ID: " + id, e);
         }
     }
 
     @Override
     public List<Order> getAllOrders() {
-        String query = "SELECT o FROM Order o";
-        TypedQuery<Order> query1 = manager.createQuery(query, Order.class);
-        return query1.getResultList();
+        try {
+            String query = "SELECT o FROM Order o";
+            TypedQuery<Order> typedQuery = manager.createQuery(query, Order.class);
+            return typedQuery.getResultList();
+        } catch (PersistenceException e) {
+            throw new RuntimeException("Failed to retrieve all orders", e);
+        }
     }
 
     @Override
@@ -91,9 +96,9 @@ public class OrderDaoHibernateImpl implements OrderDao {
             manager.merge(order);
             tx.commit();
             return true;
-        } catch (Exception e) {
-            tx.rollback();
-            throw new RuntimeException(e);
+        } catch (PersistenceException e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Failed to update order status", e);
         }
     }
 }

@@ -30,13 +30,12 @@ public  class FoodDaoHibernateImpl implements FoodDao {
 
     @Override
     public boolean saveFood(FoodItem foodItem) throws RuntimeException {
-        EntityTransaction tx = manager.getTransaction();
         try {
             tx.begin();
             manager.persist(foodItem);
             tx.commit();
             return true;
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (tx.isActive()) tx.rollback();
             log.error("Failed to persist FoodItem: {}", foodItem, e);
             throw new RuntimeException("Error saving food item", e);
@@ -46,7 +45,6 @@ public  class FoodDaoHibernateImpl implements FoodDao {
 
     @Override
     public Optional<FoodItem> getFoodById(int id) {
-        EntityTransaction tx = manager.getTransaction();
         try {
             tx.begin();
             FoodItem foodItem = manager.find(FoodItem.class, id);
@@ -107,7 +105,7 @@ public  class FoodDaoHibernateImpl implements FoodDao {
                 tx.rollback();
                 return false;
             }
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (tx.isActive()) tx.rollback();
             throw new RuntimeException("Failed to delete food item", e);
         }

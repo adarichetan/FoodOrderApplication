@@ -93,7 +93,7 @@ public class FoodOrderApp {
                     .address(address)
                     .email(email)
                     .password(password)
-                    .role(UserRole.ADMIN)
+                    .role(UserRole.CUSTOMER)
                     .build();
 
             Response response = authService.registerUser(newUser);

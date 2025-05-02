@@ -18,11 +18,12 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getCartByUserId",
-                query = "SELECT c FROM CartItem c WHERE c.user.userId = :userId "),
+                query = "SELECT c FROM CartItem c WHERE c.user.userId = :userId"),
         @NamedQuery(name = "deleteItemsFromCart",
                 query = "DELETE FROM CartItem c WHERE c.user.userId = :userId AND c.foodItem.name = :name")
 }
 )
+
 @Table(name = "cart_items", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"user_userId", "foodItem_id"})
 })

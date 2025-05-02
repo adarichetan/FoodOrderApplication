@@ -4,6 +4,7 @@ import com.foodorder.app.enums.UserRole;
 import com.foodorder.app.utility.Formattable;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.List;
 @Builder
@@ -12,6 +13,8 @@ import java.util.List;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements Formattable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

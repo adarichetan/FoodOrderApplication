@@ -3,10 +3,7 @@ package com.foodorder.app.hibernateImpl;
 import com.foodorder.app.dao.UserDao;
 import com.foodorder.app.entities.User;
 import com.foodorder.app.enums.UserRole;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -22,16 +19,21 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public boolean grantAccessAsAdmin(int userId) {
+
         try {
             tx.begin();
             User user = manager.find(User.class, userId);
+            if (user == null) {
+                tx.rollback();
+                return false;
+            }
             user.setRole(UserRole.ADMIN);
+            manager.merge(user);
             tx.commit();
             return true;
-
-        } catch (Exception e) {
-            tx.rollback();
-            throw new RuntimeException(e);
+        } catch (PersistenceException e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Failed to grant admin access to user with ID: " + userId, e);
         }
     }
 
@@ -41,12 +43,11 @@ public class UserDaoHibernateImpl implements UserDao {
             tx.begin();
             manager.persist(user);
             tx.commit();
-
-        } catch (Exception e) {
-            tx.rollback();
-            throw new RuntimeException(e);
+            return Optional.of(user);
+        } catch (PersistenceException e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Failed to save user", e);
         }
-        return Optional.of(user);
     }
 
     @Override
@@ -54,36 +55,39 @@ public class UserDaoHibernateImpl implements UserDao {
         String jpql = "SELECT u FROM User u WHERE u.email = :email";
         TypedQuery<User> query = manager.createQuery(jpql, User.class);
         query.setParameter("email", email);
+
         try {
             return Optional.of(query.getSingleResult());
         } catch (NoResultException e) {
             return Optional.empty();
+        } catch (PersistenceException e) {
+            throw new RuntimeException("Error finding user by email: " + email, e);
         }
     }
 
     @Override
     public List<User> fetchAllUsers() {
-        CriteriaBuilder builder = manager.getCriteriaBuilder();
-        CriteriaQuery<User> cq = builder.createQuery(User.class);
-        Root<User> from = cq.from(User.class);
-        cq.select(from);
-
-        TypedQuery<User> query = manager.createQuery(cq);
-
-        return query.getResultList();
+        try {
+            CriteriaBuilder builder = manager.getCriteriaBuilder();
+            CriteriaQuery<User> cq = builder.createQuery(User.class);
+            Root<User> root = cq.from(User.class);
+            cq.select(root);
+            return manager.createQuery(cq).getResultList();
+        } catch (PersistenceException e) {
+            throw new RuntimeException("Failed to fetch all users..", e);
+        }
     }
 
     @Override
     public Optional<User> updateUser(User user) {
         try {
             tx.begin();
-            User udpatedUser = manager.merge(user);
+            User updatedUser = manager.merge(user);
             tx.commit();
-            return Optional.of(udpatedUser);
-
-        } catch (Exception e) {
-            tx.rollback();
-            throw new RuntimeException(e);
+            return Optional.of(updatedUser);
+        } catch (PersistenceException e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Failed to update user..", e);
         }
     }
 }

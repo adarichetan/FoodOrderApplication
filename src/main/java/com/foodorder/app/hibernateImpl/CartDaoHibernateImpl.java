@@ -50,7 +50,7 @@ public class CartDaoHibernateImpl implements CartDao {
             }
             tx.commit();
             return true;
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             tx.rollback();
             throw new RuntimeException(e);
         }
@@ -74,39 +74,33 @@ public class CartDaoHibernateImpl implements CartDao {
                     .executeUpdate();
             tx.commit();
             return deletedCount > 0;
-        } catch (Exception e) {
-            tx.rollback();
+        } catch (PersistenceException e) {
+            if (tx.isActive()) tx.rollback();
             throw new RuntimeException("Failed to clear cart", e);
         }
     }
 
     @Override
-    public boolean updateQuantityFromCart(int id, String foodName, int newQuantity) {
+    public boolean updateQuantityFromCart(int userId, String foodName, int newQuantity) {
         try {
             tx.begin();
-//            TypedQuery<CartItem> query = manager.createQuery("SELECT c FROM CartItem c WHERE c.foodItem.name LIKE :foodName", CartItem.class)
-//                    .setParameter("foodName", foodName);
-//            CartItem item = query.getSingleResult();
 
             CriteriaBuilder builder = manager.getCriteriaBuilder();
             CriteriaQuery<CartItem> cq = builder.createQuery(CartItem.class);
             Root<CartItem> root = cq.from(CartItem.class);
+            cq.where(
+                    builder.equal(root.get("user").get("userId"), userId),
+                    builder.equal(root.get("foodItem").get("name"), foodName)
+            );
 
-            cq.where(builder.equal(root.get("foodItem").get("name"), foodName));
-            TypedQuery<CartItem> query = manager.createQuery(cq);
-            CartItem item = query.getSingleResult();
-
+            CartItem item = manager.createQuery(cq).getSingleResult();
             item.setQuantity(newQuantity);
             manager.merge(item);
             tx.commit();
             return true;
-
-        } catch (NoResultException e) {
-            tx.rollback();
-            return false;
         } catch (Exception e) {
-            tx.rollback();
-            throw new RuntimeException(e);
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Failed to update quantity", e);
         }
     }
 
@@ -116,12 +110,14 @@ public class CartDaoHibernateImpl implements CartDao {
             tx.begin();
             int deleteItemsFromCart =
                     manager.createNamedQuery("deleteItemsFromCart")
-                    .setParameter("userId", userId).setParameter("name", name).executeUpdate();
+                            .setParameter("userId", userId)
+                            .setParameter("name", name)
+                            .executeUpdate();
             tx.commit();
             return deleteItemsFromCart > 0;
         } catch (Exception e) {
-            tx.rollback();
-            throw new RuntimeException(e);
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Failed to delete from cart", e);
         }
     }
 }
